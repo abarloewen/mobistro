@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pricing — Mobistro</title>
+  <meta name="description" content="Transparent sample pricing for mobile food units — packages, add-ons and a live configurator. Build your unit and see an indicative price instantly.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="pricing">
+
+  <!-- PAGE HEAD -->
+  <section class="page-head" data-bg="street_food">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html" data-i18n="breadcrumb.home"></a><span>/</span><span data-i18n="nav.pricing"></span></div>
+      <span class="eyebrow" data-i18n="nav.pricing"></span>
+      <h1 data-i18n="pricing.head.title"></h1>
+      <p class="lead" data-i18n="pricing.head.lead"></p>
+    </div>
+  </section>
+
+  <!-- TIERS -->
+  <section class="section">
+    <div class="container">
+      <div class="pricing-grid">
+        <article class="tier reveal">
+          <h3 data-i18n="tier1.name"></h3>
+          <p class="tagline" data-i18n="tier1.tagline"></p>
+          <div class="price-row"><span class="from" data-i18n="pricing.from"></span><span class="price amount" data-price="16900"></span></div>
+          <ul>
+            <li><span class="ck" data-ic="check"></span><span data-i18n="tier1.f1"></span></li>
+            <li><span class="ck" data-ic="check"></span><span data-i18n="tier1.f2"></span></li>
+            <li><span class="ck" data-ic="check"></span><span data-i18n="tier1.f3"></span></li>
+            <li><span class="ck" data-ic="check"></span><span data-i18n="tier1.f4"></span></li>
+          </ul>
+          <a class="btn btn--ghost" href="contact.html" data-i18n="pricing.choose"></a>
+        </article>
+
+        <article class="tier feature reveal">
+          <span class="pop" data-i18n="pricing.popular"></span>
+          <h3 data-i18n="tier2.name"></h3>
+          <p class="tagline" data-i18n="tier2.tagline"></p>
+          <div class="price-row"><span class="from" data-i18n="pricing.from"></span><span class="price amount" data-price="39900"></span></div>
+          <ul>
+            <li><span class="ck" data-ic="check"></span><span data-i18n="tier2.f1"></span></li>
+            <li><span class="ck" data-ic="check"></span><span data-i18n="tier2.f2"></span></li>
+            <li><span class="ck" data-ic="check"></span><span data-i18n="tier2.f3"></span></li>
+            <li><span class="ck" data-ic="check"></span><span data-i18n="tier2.f4"></span></li>
+          </ul>
+          <a class="btn btn--primary" href="contact.html" data-i18n="pricing.choose"></a>
+        </article>
+
+        <article class="tier reveal">
+          <h3 data-i18n="tier3.name"></h3>
+          <p class="tagline" data-i18n="tier3.tagline"></p>
+          <div class="price-row"><span class="amount" data-i18n="pricing.custom"></span></div>
+          <ul>
+            <li><span class="ck" data-ic="check"></span><span data-i18n="tier3.f1"></span></li>
+            <li><span class="ck" data-ic="check"></span><span data-i18n="tier3.f2"></span></li>
+            <li><span class="ck" data-ic="check"></span><span data-i18n="tier3.f3"></span></li>
+            <li><span class="ck" data-ic="check"></span><span data-i18n="tier3.f4"></span></li>
+          </ul>
+          <a class="btn btn--ghost" href="contact.html" data-i18n="pricing.talk"></a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONFIGURATOR -->
+  <section class="section dark">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="eyebrow on-dark" data-i18n="build.eyebrow"></span>
+        <h2 data-i18n="build.title"></h2>
+        <p class="lead" data-i18n="build.lead"></p>
+      </div>
+      <div class="builder reveal">
+        <form class="build-cfg" id="builder">
+          <div class="build-step">
+            <span class="lbl" data-i18n="build.step1"></span>
+            <div class="opt-list cols">
+              <label class="opt"><input type="radio" name="base" value="cart"><span class="opt-name" data-i18n="prod.cart.name"></span><span class="price" data-price="16900"></span></label>
+              <label class="opt"><input type="radio" name="base" value="kiosk"><span class="opt-name" data-i18n="prod.kiosk.name"></span><span class="price" data-price="21900"></span></label>
+              <label class="opt"><input type="radio" name="base" value="trailer" checked><span class="opt-name" data-i18n="prod.trailer.name"></span><span class="price" data-price="29900"></span></label>
+              <label class="opt"><input type="radio" name="base" value="truck"><span class="opt-name" data-i18n="prod.truck.name"></span><span class="price" data-price="59900"></span></label>
+            </div>
+          </div>
+
+          <div class="build-step">
+            <span class="lbl" data-i18n="build.step2"></span>
+            <div class="opt-list">
+              <label class="opt"><input type="radio" name="brand" value="essential" checked><span class="opt-name" data-i18n="brand.essential"></span><span class="price free" data-i18n="pricing.included"></span></label>
+              <label class="opt"><input type="radio" name="brand" value="premium"><span class="opt-name" data-i18n="brand.premium"></span><span class="price" data-price="4500"></span></label>
+              <label class="opt"><input type="radio" name="brand" value="signature"><span class="opt-name" data-i18n="brand.signature"></span><span class="price" data-price="9800"></span></label>
+            </div>
+          </div>
+
+          <div class="build-step">
+            <span class="lbl" data-i18n="build.step3"></span>
+            <div class="opt-list cols">
+              <label class="opt"><input type="checkbox" name="addon" value="oven"><span class="opt-name" data-i18n="addon.oven"></span><span class="price" data-price="6500"></span></label>
+              <label class="opt"><input type="checkbox" name="addon" value="espresso"><span class="opt-name" data-i18n="addon.espresso"></span><span class="price" data-price="3800"></span></label>
+              <label class="opt"><input type="checkbox" name="addon" value="fridge"><span class="opt-name" data-i18n="addon.fridge"></span><span class="price" data-price="2900"></span></label>
+              <label class="opt"><input type="checkbox" name="addon" value="solar"><span class="opt-name" data-i18n="addon.solar"></span><span class="price" data-price="5400"></span></label>
+              <label class="opt"><input type="checkbox" name="addon" value="pos"><span class="opt-name" data-i18n="addon.pos"></span><span class="price" data-price="1200"></span></label>
+              <label class="opt"><input type="checkbox" name="addon" value="halal"><span class="opt-name" data-i18n="addon.halal"></span><span class="price" data-price="1900"></span></label>
+              <label class="opt"><input type="checkbox" name="addon" value="warranty"><span class="opt-name" data-i18n="addon.warranty"></span><span class="price" data-price="2400"></span></label>
+              <label class="opt"><input type="checkbox" name="addon" value="delivery"><span class="opt-name" data-i18n="addon.delivery"></span><span class="price" data-price="1500"></span></label>
+            </div>
+          </div>
+        </form>
+
+        <aside class="build-sum">
+          <span class="eyebrow" data-i18n="build.total"></span>
+          <div id="buildTotal" class="sum-total">€0</div>
+          <p class="net" data-i18n="build.net"></p>
+          <a class="btn btn--primary" href="contact.html" data-i18n="build.cta"></a>
+          <div class="finance"><span data-ic="bolt"></span><span data-i18n="pricing.finance"></span></div>
+        </aside>
+      </div>
+      <p class="price-note" data-i18n="pricing.disclaimer"></p>
+    </div>
+  </section>
+
+  <!-- CTA BAND -->
+  <section class="section">
+    <div class="container">
+      <div class="cta-band reveal">
+        <h2 data-i18n="ctaband.title"></h2>
+        <p data-i18n="ctaband.text"></p>
+        <div class="hero-cta"><a class="btn btn--primary" href="contact.html" data-i18n="ctaband.btn"></a></div>
+      </div>
+    </div>
+  </section>
+
+  <script src="i18n.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

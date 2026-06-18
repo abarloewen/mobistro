@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact — Mobistro</title>
+  <meta name="description" content="Tell us about your mobile food concept. Mobistro responds with formats, next steps and an indicative quote — usually within one business day.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="contact">
+
+  <!-- PAGE HEAD -->
+  <section class="page-head" data-bg="festival">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html" data-i18n="breadcrumb.home"></a><span>/</span><span data-i18n="nav.contact"></span></div>
+      <span class="eyebrow" data-i18n="nav.contact"></span>
+      <h1 data-i18n="contact.title"></h1>
+      <p class="lead" data-i18n="contact.lead"></p>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section">
+    <div class="container">
+      <div class="contact-grid">
+        <!-- FORM -->
+        <div class="reveal">
+          <form id="quoteForm" novalidate>
+            <div class="form-grid">
+              <div class="field">
+                <label for="f-name" data-i18n="form.name"></label>
+                <input id="f-name" name="name" type="text" required data-i18n-attr="placeholder:form.name">
+              </div>
+              <div class="field">
+                <label for="f-company" data-i18n="form.company"></label>
+                <input id="f-company" name="company" type="text" data-i18n-attr="placeholder:form.company">
+              </div>
+              <div class="field">
+                <label for="f-email" data-i18n="form.email"></label>
+                <input id="f-email" name="email" type="email" required data-i18n-attr="placeholder:form.email">
+              </div>
+              <div class="field">
+                <label for="f-phone" data-i18n="form.phone"></label>
+                <input id="f-phone" name="phone" type="tel" data-i18n-attr="placeholder:form.phone">
+              </div>
+              <div class="field full">
+                <label for="f-type" data-i18n="form.type"></label>
+                <select id="f-type" name="type">
+                  <option value="" data-i18n="form.type.opt0"></option>
+                  <option value="truck" data-i18n="form.type.truck"></option>
+                  <option value="trailer" data-i18n="form.type.trailer"></option>
+                  <option value="kiosk" data-i18n="form.type.kiosk"></option>
+                  <option value="cart" data-i18n="form.type.cart"></option>
+                  <option value="fleet" data-i18n="form.type.fleet"></option>
+                  <option value="other" data-i18n="form.type.other"></option>
+                </select>
+              </div>
+              <div class="field full">
+                <label for="f-msg" data-i18n="form.msg"></label>
+                <textarea id="f-msg" name="message" data-i18n-attr="placeholder:form.msg"></textarea>
+              </div>
+            </div>
+            <div class="mt-s"><button type="submit" class="btn btn--primary" data-i18n="form.submit"></button></div>
+            <div class="form-ok" id="formOk" data-i18n="form.success"></div>
+            <p class="form-note" data-i18n="contact.note"></p>
+          </form>
+        </div>
+
+        <!-- INFO -->
+        <aside class="reveal">
+          <h3 style="margin-bottom:22px" data-i18n="contact.info.title"></h3>
+          <div class="info-block">
+            <div class="info-item">
+              <div class="ic" data-ic="mail"></div>
+              <div><h4 data-i18n="contact.info.email.title"></h4><p><a href="mailto:hello@mobistro.de">hello@mobistro.de</a></p></div>
+            </div>
+            <div class="info-item">
+              <div class="ic" data-ic="phone"></div>
+              <div><h4 data-i18n="contact.info.phone.title"></h4><p><a href="tel:+49000000000">+49 (0) 000 000 00</a></p></div>
+            </div>
+            <div class="info-item">
+              <div class="ic" data-ic="pin"></div>
+              <div><h4 data-i18n="contact.info.markets.title"></h4><p data-i18n="contact.info.markets.val"></p></div>
+            </div>
+          </div>
+          <hr class="divider-soft" style="margin:32px 0">
+          <div class="footer-powered" data-i18n-html="footer.powered" style="border-color:var(--line-light)"></div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <script src="i18n.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
