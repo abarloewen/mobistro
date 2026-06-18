@@ -30,7 +30,11 @@ const IC = {
   bolt: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg>`,
   layers: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l9 5-9 5-9-5 9-5z"/><path d="M3 12l9 5 9-5M3 17l9 5 9-5"/></svg>`,
   brush: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.5 14.5L3 21M14 4l6 6-7.5 7.5a3 3 0 0 1-4.2 0l-1.8-1.8a3 3 0 0 1 0-4.2L14 4z"/></svg>`,
-  quote: `<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M7 7H4v6h3c0 2-1 3-3 3v2c3.3 0 5-2.2 5-5V7zm10 0h-3v6h3c0 2-1 3-3 3v2c3.3 0 5-2.2 5-5V7z"/></svg>`
+  quote: `<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M7 7H4v6h3c0 2-1 3-3 3v2c3.3 0 5-2.2 5-5V7zm10 0h-3v6h3c0 2-1 3-3 3v2c3.3 0 5-2.2 5-5V7z"/></svg>`,
+  instagram: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>`,
+  facebook: `<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M22 12a10 10 0 10-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.2c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.45 2.9h-2.35v7A10 10 0 0022 12z"/></svg>`,
+  linkedin: `<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M4.98 3.5a2.5 2.5 0 11-.01 5.01A2.5 2.5 0 014.98 3.5zM3.2 9h3.6v11.5H3.2zM9.3 9h3.45v1.57h.05c.48-.9 1.65-1.85 3.4-1.85 3.64 0 4.3 2.4 4.3 5.5v6.28h-3.6v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.3z"/></svg>`,
+  tiktok: `<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M16.5 3c.35 2.2 1.6 3.75 3.9 4.05v2.7c-1.35.05-2.6-.35-3.9-1.1v5.9a5.35 5.35 0 11-5.35-5.35c.3 0 .6.03.9.08v2.8a2.55 2.55 0 00-.9-.17 2.62 2.62 0 102.62 2.62V3z"/></svg>`
 };
 
 /* ---------- Placeholder line illustrations (image fallback) ---------- */
@@ -112,6 +116,12 @@ function buildFooter() {
           <a class="brand" href="index.html" aria-label="Mobistro">${LOGO_MARK}<span class="logo-word">Mobi<b>stro</b></span></a>
           <p data-i18n="footer.blurb"></p>
           <div class="footer-powered" data-i18n-html="footer.powered"></div>
+          <div class="social">
+            <a href="https://instagram.com/mobistro" target="_blank" rel="noopener" aria-label="Instagram" data-ic="instagram"></a>
+            <a href="https://facebook.com/mobistro" target="_blank" rel="noopener" aria-label="Facebook" data-ic="facebook"></a>
+            <a href="https://linkedin.com/company/mobistro" target="_blank" rel="noopener" aria-label="LinkedIn" data-ic="linkedin"></a>
+            <a href="https://tiktok.com/@mobistro" target="_blank" rel="noopener" aria-label="TikTok" data-ic="tiktok"></a>
+          </div>
         </div>
         <div class="footer-col">
           <h5 data-i18n="footer.explore"></h5>
