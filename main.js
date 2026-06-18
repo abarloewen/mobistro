@@ -34,8 +34,23 @@ const IC = {
   instagram: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>`,
   facebook: `<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M22 12a10 10 0 10-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.2c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.45 2.9h-2.35v7A10 10 0 0022 12z"/></svg>`,
   linkedin: `<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M4.98 3.5a2.5 2.5 0 11-.01 5.01A2.5 2.5 0 014.98 3.5zM3.2 9h3.6v11.5H3.2zM9.3 9h3.45v1.57h.05c.48-.9 1.65-1.85 3.4-1.85 3.64 0 4.3 2.4 4.3 5.5v6.28h-3.6v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.3z"/></svg>`,
-  tiktok: `<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M16.5 3c.35 2.2 1.6 3.75 3.9 4.05v2.7c-1.35.05-2.6-.35-3.9-1.1v5.9a5.35 5.35 0 11-5.35-5.35c.3 0 .6.03.9.08v2.8a2.55 2.55 0 00-.9-.17 2.62 2.62 0 102.62 2.62V3z"/></svg>`
+  tiktok: `<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M16.5 3c.35 2.2 1.6 3.75 3.9 4.05v2.7c-1.35.05-2.6-.35-3.9-1.1v5.9a5.35 5.35 0 11-5.35-5.35c.3 0 .6.03.9.08v2.8a2.55 2.55 0 00-.9-.17 2.62 2.62 0 102.62 2.62V3z"/></svg>`,
+  whatsapp: `<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.9c0 1.75.46 3.45 1.32 4.95L2 22l5.3-1.39a9.9 9.9 0 004.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.9 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm0 18.13h-.01a8.2 8.2 0 01-4.18-1.15l-.3-.18-3.11.82.83-3.03-.2-.31a8.2 8.2 0 01-1.26-4.36c0-4.54 3.7-8.23 8.24-8.23a8.2 8.2 0 015.82 2.41 8.18 8.18 0 012.42 5.83c0 4.54-3.7 8.23-8.24 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28z"/></svg>`
 };
+
+/* ---------- Social + WhatsApp config (dummy links) ---------- */
+const WA_LINK = "https://wa.me/4915123456789"; // dummy — replace with real number
+const SOCIAL = {
+  instagram: "https://instagram.com/mobistro",
+  facebook:  "https://facebook.com/mobistro",
+  linkedin:  "https://linkedin.com/company/mobistro",
+  tiktok:    "https://tiktok.com/@mobistro"
+};
+const SOCIAL_HTML = `
+  <a href="${SOCIAL.instagram}" target="_blank" rel="noopener" aria-label="Instagram" data-ic="instagram"></a>
+  <a href="${SOCIAL.facebook}" target="_blank" rel="noopener" aria-label="Facebook" data-ic="facebook"></a>
+  <a href="${SOCIAL.linkedin}" target="_blank" rel="noopener" aria-label="LinkedIn" data-ic="linkedin"></a>
+  <a href="${SOCIAL.tiktok}" target="_blank" rel="noopener" aria-label="TikTok" data-ic="tiktok"></a>`;
 
 /* ---------- Placeholder line illustrations (image fallback) ---------- */
 const ILLOS = {
@@ -88,7 +103,14 @@ function buildHeader() {
     <div class="container">
       <nav class="nav">
         <a class="brand" href="index.html" aria-label="Mobistro">${LOGO_MARK}<span class="logo-word">Mobi<b>stro</b></span></a>
-        <ul class="nav-links" id="navLinks">${navItems}</ul>
+        <ul class="nav-links" id="navLinks">
+          ${navItems}
+          <li class="nav-m-extra">
+            <a class="btn btn--primary" href="contact.html" data-i18n="cta.quote"></a>
+            <a class="btn btn--wa" href="${WA_LINK}" target="_blank" rel="noopener">${IC.whatsapp}<span>WhatsApp</span></a>
+            <div class="social nav-m-social">${SOCIAL_HTML}</div>
+          </li>
+        </ul>
         <div class="nav-actions">
           <a class="btn btn--primary cta-quote" href="contact.html" data-i18n="cta.quote"></a>
           <div class="lang" id="langWrap">
@@ -340,10 +362,21 @@ function wire() {
   }
 }
 
+/* ---------- Floating WhatsApp button ---------- */
+function buildFab() {
+  const a = document.createElement("a");
+  a.className = "wa-fab";
+  a.href = WA_LINK; a.target = "_blank"; a.rel = "noopener";
+  a.setAttribute("aria-label", "WhatsApp");
+  a.innerHTML = IC.whatsapp;
+  document.body.appendChild(a);
+}
+
 /* ---------- Init ---------- */
 document.addEventListener("DOMContentLoaded", () => {
   buildHeader();
   buildFooter();
+  buildFab();
   buildMedia();
   fillIllos();
   Mobistro.setLang(Mobistro.getLang());
