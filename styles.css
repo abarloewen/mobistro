@@ -614,7 +614,7 @@ html[dir="rtl"] .step:hover { transform: translateX(-4px); }
 .nav { min-width: 0; }
 .brand { min-width: 0; }
 .brand .logo-word { white-space: nowrap; }
-h1, h2, h3 { overflow-wrap: break-word; hyphens: auto; }
+h1, h2, h3 { overflow-wrap: break-word; }
 
 @media (max-width: 480px) {
   .nav { gap: 12px; }
