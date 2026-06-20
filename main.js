@@ -86,6 +86,7 @@ function buildHeader() {
     ["home", "index.html", "nav.home"],
     ["solutions", "solutions.html", "nav.solutions"],
     ["process", "process.html", "nav.process"],
+    ["konfigurator", "konfigurator.html", "build.eyebrow"],
     ["pricing", "pricing.html", "nav.pricing"],
     ["partnership", "partnership.html", "nav.partnership"],
     ["contact", "contact.html", "nav.contact"]
@@ -149,6 +150,7 @@ function buildFooter() {
           <h5 data-i18n="footer.explore"></h5>
           <a href="solutions.html" data-i18n="nav.solutions"></a>
           <a href="process.html" data-i18n="nav.process"></a>
+          <a href="konfigurator.html" data-i18n="build.eyebrow"></a>
           <a href="pricing.html" data-i18n="nav.pricing"></a>
           <a href="partnership.html" data-i18n="nav.partnership"></a>
         </div>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Konfigurator — Mobistro</title>
+  <meta name="description" content="Bau deinen eigenen Food Truck, Trailer oder Kiosk in 3D. Wähle Basis, Lackierung und Ausstattung, lade Inspiration & Pläne hoch und fordere dein individuelles Angebot an.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ===== Configurator app styles ===== */
+    .kfg-hero{ background:var(--ink); color:#fff; position:relative; overflow:hidden; }
+    .kfg-hero::before{ content:""; position:absolute; inset:0; background:radial-gradient(700px 360px at 82% -10%, rgba(224,99,60,.30), transparent 60%); }
+    .kfg-hero .container{ position:relative; z-index:1; padding-block:clamp(40px,6vw,70px) clamp(20px,3vw,30px); }
+    .kfg-hero h1{ color:#fff; font-size:clamp(2rem,4.4vw,3.2rem); margin:12px 0 10px; }
+    .kfg-hero h1 em{ font-style:normal; color:var(--ember); }
+    .kfg-badges{ display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; }
+    .kfg-badge{ display:inline-flex; align-items:center; gap:8px; padding:8px 14px; border:1px solid var(--line-dark); border-radius:99px; font-size:.82rem; color:var(--tx-cream); }
+    .kfg-badge b{ color:var(--brass); }
+
+    .kfg-app{ display:grid; grid-template-columns: 1.5fr 1fr; gap:0; background:var(--ink); min-height:78vh; }
+    @media (max-width:1024px){ .kfg-app{ grid-template-columns:1fr; } }
+    /* stage */
+    .kfg-stage{ position:relative; background:
+        radial-gradient(60% 60% at 50% 35%, #2a2620 0%, #15120F 70%);
+       min-height:60vh; }
+    .kfg-stage canvas{ display:block; width:100%; height:100%; }
+    #kfgCanvasWrap{ position:absolute; inset:0; }
+    .kfg-stage-foot{ position:absolute; left:0; right:0; bottom:0; padding:14px 20px; display:flex; justify-content:space-between; align-items:flex-end; pointer-events:none; }
+    .kfg-hint{ font-size:.74rem; color:var(--tx-cream-mut); letter-spacing:.04em; background:rgba(0,0,0,.3); padding:6px 11px; border-radius:99px; }
+    .kfg-stage-tools{ position:absolute; top:16px; right:16px; display:flex; flex-direction:column; gap:8px; z-index:3; }
+    .kfg-tool{ width:42px; height:42px; border-radius:12px; border:1px solid var(--line-dark); background:rgba(33,28,23,.7); backdrop-filter:blur(6px); color:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:.2s; }
+    .kfg-tool:hover{ border-color:var(--ember); color:var(--ember); transform:translateY(-2px); }
+    .kfg-tool.on{ background:var(--ember); color:#fff; border-color:var(--ember); }
+    .kfg-tool svg{ width:19px; height:19px; }
+    .kfg-loading{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; color:var(--tx-cream-mut); z-index:4; transition:opacity .5s; }
+    .kfg-spin{ width:38px; height:38px; border-radius:50%; border:3px solid rgba(244,239,231,.18); border-top-color:var(--ember); animation:kfgspin .9s linear infinite; }
+    @keyframes kfgspin{ to{ transform:rotate(360deg); } }
+    .kfg-price-float{ position:absolute; top:16px; left:16px; z-index:3; background:rgba(20,17,14,.72); backdrop-filter:blur(8px); border:1px solid var(--line-dark); border-radius:16px; padding:14px 18px; }
+    .kfg-price-float .lbl{ font-size:.68rem; text-transform:uppercase; letter-spacing:.16em; color:var(--brass); }
+    .kfg-price-float .amt{ font-family:var(--f-display); font-weight:700; font-size:1.7rem; color:#fff; letter-spacing:-.02em; }
+    .kfg-price-float .amt.pulse{ animation:pulse .4s var(--ease); }
+    .kfg-price-float .net{ font-size:.7rem; color:var(--tx-cream-mut); }
+
+    /* panel */
+    .kfg-panel{ background:var(--cream); padding:clamp(22px,3vw,34px); overflow-y:auto; max-height:none; }
+    @media (min-width:1025px){ .kfg-panel{ max-height:100vh; position:sticky; top:0; } }
+    .kfg-step{ margin-bottom:26px; }
+    .kfg-step > .lbl{ display:flex; align-items:center; gap:9px; font-family:var(--f-display); font-weight:600; font-size:.78rem; text-transform:uppercase; letter-spacing:.14em; color:var(--ember); margin-bottom:13px; }
+    .kfg-step > .lbl .n{ width:22px; height:22px; border-radius:50%; background:var(--ember); color:#fff; display:flex; align-items:center; justify-content:center; font-size:.72rem; }
+    /* base options */
+    .kfg-bases{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .kfg-base{ border:1.5px solid var(--line-light); border-radius:14px; padding:13px; cursor:pointer; background:#fff; transition:.2s; text-align:left; }
+    .kfg-base:hover{ border-color:var(--ember); transform:translateY(-2px); }
+    .kfg-base.sel{ border-color:var(--ember); background:var(--ember-soft); }
+    .kfg-base .nm{ font-weight:700; font-size:.96rem; color:var(--ink); }
+    .kfg-base .pr{ font-size:.78rem; color:var(--tx-ink-mut); margin-top:2px; }
+    .kfg-base svg{ width:100%; height:42px; margin-bottom:6px; }
+    /* color swatches */
+    .kfg-swatches{ display:flex; flex-wrap:wrap; gap:10px; }
+    .kfg-sw{ width:38px; height:38px; border-radius:50%; cursor:pointer; border:2px solid transparent; box-shadow:0 0 0 1px var(--line-light) inset; transition:.2s; position:relative; }
+    .kfg-sw:hover{ transform:scale(1.1); }
+    .kfg-sw.sel{ border-color:#fff; box-shadow:0 0 0 2px var(--ink); }
+    /* branding radios */
+    .kfg-brand{ display:grid; gap:9px; }
+    .kfg-opt{ display:flex; align-items:center; gap:11px; padding:12px 14px; border:1.5px solid var(--line-light); border-radius:12px; cursor:pointer; transition:.2s; }
+    .kfg-opt:hover{ border-color:var(--ember); }
+    .kfg-opt.sel{ border-color:var(--ember); background:var(--ember-soft); }
+    .kfg-opt .dot{ width:18px; height:18px; border-radius:50%; border:2px solid var(--line-light); flex-shrink:0; }
+    .kfg-opt.sel .dot{ border-color:var(--ember); background:var(--ember); box-shadow:inset 0 0 0 3px #fff; }
+    .kfg-opt .nm{ flex:1; font-size:.92rem; font-weight:500; color:var(--ink); }
+    .kfg-opt .pr{ font-family:var(--f-display); font-weight:700; font-size:.85rem; color:var(--ink); }
+    .kfg-opt .pr.free{ color:var(--brass); }
+    /* addons */
+    .kfg-addons{ display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+    @media (max-width:560px){ .kfg-addons{ grid-template-columns:1fr; } }
+    .kfg-chip{ position:relative; display:flex; flex-direction:column; gap:3px; padding:12px 13px; border:1.5px solid var(--line-light); border-radius:12px; cursor:pointer; background:#fff; transition:.2s; }
+    .kfg-chip:hover{ border-color:var(--ember); }
+    .kfg-chip.sel{ border-color:var(--ember); background:var(--ember-soft); }
+    .kfg-chip .top{ display:flex; align-items:center; justify-content:space-between; gap:6px; }
+    .kfg-chip .nm{ font-size:.86rem; font-weight:600; color:var(--ink); }
+    .kfg-chip .pr{ font-size:.78rem; font-weight:700; color:var(--ember-deep); }
+    .kfg-chip .info{ width:16px; height:16px; border-radius:50%; background:var(--cream-2); color:var(--tx-ink-mut); font-size:.62rem; display:flex; align-items:center; justify-content:center; }
+    .kfg-chip .check{ position:absolute; top:-7px; right:-7px; width:20px; height:20px; border-radius:50%; background:var(--ember); color:#fff; display:none; align-items:center; justify-content:center; }
+    .kfg-chip.sel .check{ display:flex; }
+    .kfg-chip .check svg{ width:11px; height:11px; }
+
+    /* summary */
+    .kfg-summary{ background:#fff; border:1px solid var(--line-light); border-radius:14px; padding:16px 18px; margin-top:6px; }
+    .kfg-summary h4{ font-family:var(--f-display); font-size:.95rem; margin-bottom:10px; }
+    .kfg-sum-row{ display:flex; justify-content:space-between; gap:10px; font-size:.84rem; padding:5px 0; border-bottom:1px dashed var(--line-light); }
+    .kfg-sum-row:last-child{ border-bottom:0; }
+    .kfg-sum-row .v{ font-weight:600; color:var(--ink); white-space:nowrap; }
+    .kfg-sum-row span.k{ color:var(--tx-ink-mut); }
+    .kfg-total{ display:flex; justify-content:space-between; align-items:baseline; margin-top:12px; padding-top:12px; border-top:2px solid var(--line-light); }
+    .kfg-total .t{ font-weight:600; color:var(--ink); }
+    .kfg-total .a{ font-family:var(--f-display); font-weight:700; font-size:1.5rem; color:var(--ember); }
+
+    /* upload */
+    .kfg-drop{ border:2px dashed var(--cream-3); border-radius:14px; padding:22px 16px; text-align:center; cursor:pointer; transition:.2s; background:#fff; }
+    .kfg-drop:hover, .kfg-drop.drag{ border-color:var(--ember); background:var(--ember-soft); }
+    .kfg-drop .ic{ width:40px; height:40px; margin:0 auto 8px; border-radius:12px; background:var(--cream-2); display:flex; align-items:center; justify-content:center; color:var(--ember-deep); }
+    .kfg-drop p{ font-size:.86rem; color:var(--tx-ink); }
+    .kfg-drop small{ font-size:.74rem; color:var(--tx-ink-mut); }
+    .kfg-files{ display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+    .kfg-file{ display:flex; align-items:center; gap:8px; background:var(--cream-2); border-radius:10px; padding:6px 8px 6px 6px; font-size:.76rem; max-width:100%; }
+    .kfg-file img{ width:34px; height:34px; border-radius:7px; object-fit:cover; }
+    .kfg-file .fi{ width:34px; height:34px; border-radius:7px; background:var(--ink); color:#fff; display:flex; align-items:center; justify-content:center; font-size:.6rem; font-weight:700; }
+    .kfg-file .nm{ max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--tx-ink); }
+    .kfg-file .x{ cursor:pointer; color:var(--tx-ink-mut); padding:0 2px; }
+    .kfg-file .x:hover{ color:var(--ember-deep); }
+
+    .kfg-actions{ display:grid; gap:10px; margin-top:18px; }
+    .kfg-actions .row{ display:flex; gap:10px; }
+    .kfg-actions .row .btn{ flex:1; justify-content:center; }
+    .btn--soft{ background:var(--cream-2); color:var(--ink); }
+    .btn--soft:hover{ background:var(--cream-3); }
+    .kfg-saved{ font-size:.78rem; color:var(--ember-deep); text-align:center; min-height:1em; }
+
+    /* modal / popups */
+    .kfg-modal{ position:fixed; inset:0; z-index:300; display:none; align-items:center; justify-content:center; padding:20px; }
+    .kfg-modal.open{ display:flex; }
+    .kfg-modal .ov{ position:absolute; inset:0; background:rgba(15,12,10,.66); backdrop-filter:blur(4px); animation:fadeIn .25s; }
+    .kfg-modal .box{ position:relative; z-index:1; background:var(--cream); border-radius:20px; max-width:520px; width:100%; max-height:90vh; overflow-y:auto; padding:30px; box-shadow:var(--shadow-soft); animation:fadeUp .35s var(--ease); }
+    .kfg-modal .box.lb{ background:transparent; box-shadow:none; max-width:920px; padding:0; }
+    .kfg-modal .box.lb img{ width:100%; border-radius:16px; }
+    .kfg-modal .close{ position:absolute; top:14px; right:14px; width:36px; height:36px; border-radius:50%; background:var(--cream-2); display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:2; }
+    .kfg-modal .box.lb .close{ background:rgba(0,0,0,.5); color:#fff; }
+    .kfg-modal h3{ font-size:1.3rem; }
+    .kfg-modal .field{ display:flex; flex-direction:column; gap:6px; margin-top:14px; }
+    .kfg-modal label{ font-size:.84rem; font-weight:600; }
+    .kfg-modal input{ font:inherit; padding:12px 14px; border:1px solid var(--line-light); border-radius:10px; }
+    .kfg-modal input:focus{ outline:none; border-color:var(--ember); box-shadow:0 0 0 3px rgba(224,99,60,.14); }
+    .kfg-modal .ok{ display:none; text-align:center; }
+    .kfg-modal .ok.show{ display:block; }
+    .kfg-modal .ok .big{ width:64px; height:64px; border-radius:50%; background:var(--ember-soft); color:var(--ember-deep); display:flex; align-items:center; justify-content:center; margin:0 auto 14px; }
+
+    /* gallery */
+    .kfg-gallery{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+    @media (max-width:880px){ .kfg-gallery{ grid-template-columns:repeat(2,1fr); } }
+    .kfg-gimg{ position:relative; aspect-ratio:1/1; border-radius:16px; overflow:hidden; cursor:pointer; background:var(--ink); }
+    .kfg-gimg img{ width:100%; height:100%; object-fit:cover; transition:transform .5s var(--ease); }
+    .kfg-gimg:hover img{ transform:scale(1.08); }
+    .kfg-gimg::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg,transparent 55%,rgba(15,12,10,.5)); }
+    .kfg-gimg .cap{ position:absolute; bottom:10px; left:12px; z-index:1; color:#fff; font-size:.78rem; font-weight:600; }
+
+    /* quality band */
+    .qband{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
+    @media (max-width:760px){ .qband{ grid-template-columns:repeat(2,1fr); } }
+    .qitem .ic{ width:46px; height:46px; border-radius:13px; background:var(--ember-soft); color:var(--ember-deep); display:flex; align-items:center; justify-content:center; margin-bottom:12px; }
+    .qitem h4{ font-family:var(--f-display); font-size:1.05rem; }
+    .qitem p{ font-size:.88rem; margin-top:4px; }
+
+    /* next links */
+    .nextlinks{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+    @media (max-width:760px){ .nextlinks{ grid-template-columns:1fr 1fr; } }
+    .nextlink{ display:flex; flex-direction:column; gap:6px; padding:20px; border:1px solid var(--line-light); border-radius:16px; background:#fff; transition:.25s; }
+    .nextlink:hover{ transform:translateY(-4px); border-color:var(--ember); box-shadow:var(--shadow-card); }
+    .nextlink .k{ font-size:.72rem; text-transform:uppercase; letter-spacing:.14em; color:var(--ember); font-weight:700; }
+    .nextlink .t{ font-family:var(--f-display); font-weight:600; font-size:1.05rem; color:var(--ink); }
+    .nextlink .d{ font-size:.84rem; color:var(--tx-ink-mut); }
+  </style>
+</head>
+<body data-page="konfigurator">
+
+  <!-- HERO -->
+  <section class="kfg-hero">
+    <div class="container">
+      <span class="eyebrow on-dark">Konfigurator · Expertenmodus</span>
+      <h1>Bau deinen eigenen <em>Mobistro.</em></h1>
+      <p class="lead" style="max-width:620px;">Wähle Basis, Lackierung und Ausstattung, dreh dein Fahrzeug in 3D, lade Inspiration oder Grundrisse hoch – und fordere dein individuelles Angebot an. Europäisch zertifizierte Qualität, gebaut von einer deutsch–südostasiatischen Marke mit 17 Jahren Markterfahrung.</p>
+      <div class="kfg-badges">
+        <span class="kfg-badge"><b>17</b> Jahre Markterfahrung</span>
+        <span class="kfg-badge"><b>CE</b> Europäisch zertifizierte Qualität</span>
+        <span class="kfg-badge">🇩🇪 + 🌏 Deutsch–südostasiatische Marke</span>
+        <span class="kfg-badge"><b>200+</b> Einheiten gebaut</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- APP -->
+  <section class="kfg-app">
+    <!-- 3D STAGE -->
+    <div class="kfg-stage">
+      <div id="kfgCanvasWrap"></div>
+      <div class="kfg-price-float">
+        <div class="lbl">Geschätzter Preis</div>
+        <div class="amt" id="kfgPrice">–</div>
+        <div class="net">netto, zzgl. MwSt. · Richtwert</div>
+      </div>
+      <div class="kfg-stage-tools">
+        <button class="kfg-tool on" id="kfgRotate" title="Auto-Rotation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 4v5h-5"/></svg></button>
+        <button class="kfg-tool" id="kfgReset" title="Ansicht zurücksetzen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 4v5h5"/></svg></button>
+        <button class="kfg-tool" id="kfgShot" title="Build als Bild speichern"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg></button>
+      </div>
+      <div class="kfg-loading" id="kfgLoading"><div class="kfg-spin"></div><span>3D-Modell wird geladen …</span></div>
+      <div class="kfg-stage-foot"><span class="kfg-hint">↺ Ziehen zum Drehen · Scrollen zum Zoomen</span></div>
+    </div>
+
+    <!-- CONTROL PANEL -->
+    <aside class="kfg-panel">
+      <div class="kfg-step">
+        <span class="lbl"><span class="n">1</span> Basis-Einheit</span>
+        <div class="kfg-bases" id="kfgBases"></div>
+      </div>
+
+      <div class="kfg-step">
+        <span class="lbl"><span class="n">2</span> Lackierung</span>
+        <div class="kfg-swatches" id="kfgSwatches"></div>
+      </div>
+
+      <div class="kfg-step">
+        <span class="lbl"><span class="n">3</span> Branding-Level</span>
+        <div class="kfg-brand" id="kfgBrand"></div>
+      </div>
+
+      <div class="kfg-step">
+        <span class="lbl"><span class="n">4</span> Ausstattung &amp; Add-ons</span>
+        <div class="kfg-addons" id="kfgAddons"></div>
+      </div>
+
+      <div class="kfg-step">
+        <span class="lbl"><span class="n">5</span> Inspiration &amp; Pläne</span>
+        <div class="kfg-drop" id="kfgDrop">
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M5 20h14"/></svg></div>
+          <p><strong>Bilder oder PDF-Pläne hochladen</strong></p>
+          <small>Referenzen, Moodboards oder Grundrisse · ziehen oder klicken</small>
+          <input type="file" id="kfgFileInput" multiple accept="image/*,.pdf" hidden>
+        </div>
+        <div class="kfg-files" id="kfgFiles"></div>
+      </div>
+
+      <div class="kfg-summary">
+        <h4>Deine Konfiguration</h4>
+        <div id="kfgSummary"></div>
+        <div class="kfg-total"><span class="t">Geschätzter Gesamtpreis</span><span class="a" id="kfgTotal">–</span></div>
+      </div>
+
+      <div class="kfg-actions">
+        <a class="btn btn--primary" id="kfgRequest" style="justify-content:center;">Konfiguration anfragen →</a>
+        <div class="row">
+          <button class="btn btn--soft" id="kfgSave">Speichern</button>
+          <button class="btn btn--soft" id="kfgShare">Link kopieren</button>
+        </div>
+        <div class="kfg-saved" id="kfgSaved"></div>
+      </div>
+    </aside>
+  </section>
+
+  <!-- INSPIRATION GALLERY -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Inspiration</span>
+        <h2>Echte mobile Konzepte, die begeistern</h2>
+        <p class="lead">Noch unsicher? Lass dich von echten Food Trucks, Trailern und Kiosken inspirieren – tippe für die Großansicht.</p>
+      </div>
+      <div class="kfg-gallery reveal" id="kfgGallery"></div>
+    </div>
+  </section>
+
+  <!-- QUALITY BAND -->
+  <section class="section dark">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="eyebrow on-dark">Qualität &amp; Herkunft</span>
+        <h2>Europäisch zertifiziert. Weltweit gebaut.</h2>
+        <p class="lead">Eine deutsch–südostasiatische Marke mit 17 Jahren Markterfahrung – wir verbinden europäische Standards mit bewährter Fertigung.</p>
+      </div>
+      <div class="qband">
+        <div class="qitem reveal"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg></div><h4 style="color:#fff">CE-konform</h4><p>Gebaut nach europäischen Sicherheits- und Hygienestandards – abnahmebereit für DACH.</p></div>
+        <div class="qitem reveal"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="5"/><path d="M8.5 12.5L7 22l5-3 5 3-1.5-9.5"/></svg></div><h4 style="color:#fff">17 Jahre Erfahrung</h4><p>Über 200 gelieferte Einheiten – Prozesse, die funktionieren, vom Konzept bis zur Straße.</p></div>
+        <div class="qitem reveal"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/></svg></div><h4 style="color:#fff">DE + Südostasien</h4><p>Deutsches Design und Projektmanagement, kombiniert mit erfahrener Fertigung in Asien.</p></div>
+        <div class="qitem reveal"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></div><h4 style="color:#fff">Halal-bereit</h4><p>Auf Wunsch halal-konformer Ausbau und Zertifizierung – für deinen Markt und deine Werte.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEXT / INTERNAL LINKS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Weiter erkunden</span>
+        <h2>Noch mehr über Mobistro</h2>
+      </div>
+      <div class="nextlinks reveal">
+        <a class="nextlink" href="solutions.html"><span class="k">Lösungen</span><span class="t">Alle Formate</span><span class="d">Trucks, Trailer, Kioske &amp; Carts im Detail.</span></a>
+        <a class="nextlink" href="pricing.html"><span class="k">Preise</span><span class="t">Pakete &amp; Add-ons</span><span class="d">Transparente Pakete und was inklusive ist.</span></a>
+        <a class="nextlink" href="process.html"><span class="k">Ablauf</span><span class="t">So läuft's</span><span class="d">Vom Konzept zur Straße in ~6 Wochen.</span></a>
+        <a class="nextlink" href="partnership.html"><span class="k">Partnerschaft</span><span class="t">Über uns</span><span class="d">Europäisches Design, bewährte Fertigung.</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- REQUEST MODAL -->
+  <div class="kfg-modal" id="kfgModal">
+    <div class="ov" data-close></div>
+    <div class="box">
+      <div class="close" data-close><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></div>
+      <div id="kfgFormWrap">
+        <span class="eyebrow">Fast geschafft</span>
+        <h3 style="margin-top:8px;">Deine Konfiguration anfragen</h3>
+        <p style="font-size:.9rem; margin-top:6px;">Wir melden uns mit einem konkreten Angebot zu deiner Konfiguration – meist innerhalb eines Werktags.</p>
+        <div id="kfgModalSummary" style="background:#fff; border:1px solid var(--line-light); border-radius:12px; padding:12px 14px; margin-top:14px; font-size:.84rem;"></div>
+        <form id="kfgForm">
+          <div class="field"><label>Name</label><input type="text" required placeholder="Vor- und Nachname"></div>
+          <div class="field"><label>E-Mail</label><input type="email" required placeholder="du@beispiel.de"></div>
+          <div class="field"><label>Telefon / WhatsApp</label><input type="tel" placeholder="+49 …"></div>
+          <button type="submit" class="btn btn--primary" style="width:100%; justify-content:center; margin-top:16px;">Anfrage senden</button>
+          <p style="font-size:.74rem; color:var(--tx-ink-mut); margin-top:10px; text-align:center;">Demo-Formular – Einsendungen werden noch nicht versendet.</p>
+        </form>
+      </div>
+      <div class="ok" id="kfgOk">
+        <div class="big"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></div>
+        <h3>Danke!</h3>
+        <p style="font-size:.92rem; margin-top:8px;">Deine Konfiguration ist gespeichert. Unser Team meldet sich innerhalb eines Werktags mit deinem persönlichen Angebot.</p>
+        <button class="btn btn--soft" data-close style="margin-top:18px;">Schließen</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX MODAL -->
+  <div class="kfg-modal" id="kfgLightbox">
+    <div class="ov" data-close></div>
+    <div class="box lb">
+      <div class="close" data-close><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></div>
+      <img id="kfgLbImg" src="" alt="">
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="konfigurator.js"></script>
+  <script src="i18n.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
