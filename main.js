@@ -374,6 +374,45 @@ function buildFab() {
   document.body.appendChild(a);
 }
 
+/* ---------- Homepage extras: hero bg, parallax, gallery, lightbox ---------- */
+function buildHomeExtras() {
+  // cinematic hero background image
+  document.querySelectorAll("[data-img-bg]").forEach(el => {
+    const u = imgURL(el.getAttribute("data-img-bg"), 1700);
+    if (!u) return;
+    const img = document.createElement("img");
+    img.className = "hero-bg-img"; img.alt = ""; img.decoding = "async"; img.src = u;
+    el.appendChild(img);
+  });
+  const heroImg = document.querySelector(".hero-bg-img");
+  if (heroImg) {
+    window.addEventListener("scroll", () => {
+      const y = window.scrollY || 0;
+      if (y < 1000) heroImg.style.transform = "translateY(" + (y * 0.16) + "px)";
+    }, { passive: true });
+  }
+
+  // "in action" gallery
+  const g = document.getElementById("homeGallery");
+  if (g) {
+    const keys = ["food_truck", "food_trailer", "food_kiosk", "coffee_cart", "street_food", "vehicle_wrap", "festival", "kitchen_interior"];
+    const caps = { food_truck: "Food Truck", food_trailer: "Food Trailer", food_kiosk: "Food Kiosk", coffee_cart: "Coffee Cart", street_food: "Street Food", vehicle_wrap: "Branding", festival: "Festival", kitchen_interior: "Innenausbau" };
+    g.innerHTML = keys.map(k => '<div class="g" data-lb="' + imgURL(k, 1400) + '"><img loading="lazy" decoding="async" src="' + imgURL(k, 640) + '" alt="' + caps[k] + '"><span class="cap">' + caps[k] + '</span></div>').join("");
+    g.addEventListener("click", e => {
+      const c = e.target.closest("[data-lb]"); if (!c) return;
+      const im = document.getElementById("lbImg"), lb = document.getElementById("lightbox");
+      if (im && lb) { im.src = c.dataset.lb; lb.classList.add("open"); }
+    });
+  }
+
+  // lightbox close
+  const lb = document.getElementById("lightbox");
+  if (lb) {
+    lb.querySelectorAll("[data-lbclose]").forEach(x => x.addEventListener("click", () => lb.classList.remove("open")));
+    document.addEventListener("keydown", e => { if (e.key === "Escape") lb.classList.remove("open"); });
+  }
+}
+
 /* ---------- Init ---------- */
 document.addEventListener("DOMContentLoaded", () => {
   buildHeader();
@@ -381,6 +420,7 @@ document.addEventListener("DOMContentLoaded", () => {
   buildFab();
   buildMedia();
   fillIllos();
+  buildHomeExtras();
   Mobistro.setLang(Mobistro.getLang());
   renderPrices();
   initCarousel();
