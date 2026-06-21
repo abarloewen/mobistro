@@ -126,6 +126,62 @@
     </div>
   </section>
 
+  <!-- ROI CALCULATOR -->
+  <section class="section" id="roi">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Rentabilität</span>
+        <h2>Rechne mit deinem eigenen Erfolg</h2>
+        <p class="lead">Spiel mit den Zahlen und sieh, wann sich deine Einheit auszahlt. Richtwerte — deine echten Zahlen besprechen wir persönlich.</p>
+      </div>
+      <div class="roi reveal">
+        <div class="roi-controls">
+          <div class="roi-field">
+            <label>Investition <span class="rv" id="roiBaseVal">39.900 €</span></label>
+            <select id="roiBase">
+              <option value="16900">Starter — 16.900 €</option>
+              <option value="39900" selected>Signature — 39.900 €</option>
+              <option value="59900">Food Truck — 59.900 €</option>
+            </select>
+          </div>
+          <div class="roi-field"><label>Kunden pro Tag <span class="rv" id="roiCustVal">120</span></label><input type="range" id="roiCust" min="20" max="400" step="5" value="120"></div>
+          <div class="roi-field"><label>Ø Bestellwert <span class="rv" id="roiTicketVal">9 €</span></label><input type="range" id="roiTicket" min="4" max="25" step="1" value="9"></div>
+          <div class="roi-field"><label>Öffnungstage / Woche <span class="rv" id="roiDaysVal">5</span></label><input type="range" id="roiDays" min="3" max="7" step="1" value="5"></div>
+          <div class="roi-field"><label>Marge <span class="rv" id="roiMarginVal">45 %</span></label><input type="range" id="roiMargin" min="25" max="65" step="1" value="45"></div>
+        </div>
+        <div class="roi-results">
+          <div class="roi-kpis">
+            <div class="roi-kpi"><span class="l">Umsatz / Monat</span><span class="v" id="roiRev">–</span></div>
+            <div class="roi-kpi"><span class="l">Gewinn / Monat</span><span class="v" id="roiProfit">–</span></div>
+            <div class="roi-kpi accent"><span class="l">Amortisiert nach</span><span class="v" id="roiBreakeven">–</span></div>
+          </div>
+          <div class="roi-canvas"><canvas id="roiChart"></canvas></div>
+        </div>
+      </div>
+      <p class="price-note">Vereinfachtes Modell zu Illustrationszwecken (ohne Standort-, Personal- und sonstige Betriebskosten). Unverbindlicher Richtwert.</p>
+    </div>
+  </section>
+
+  <!-- COMPARISON + MARKET -->
+  <section class="section dark">
+    <div class="container">
+      <div class="grid-2">
+        <div class="reveal">
+          <span class="eyebrow on-dark">Eigenbau vs. Mobistro</span>
+          <h2 style="margin-top:10px;">Wochen sparen, nicht verlieren</h2>
+          <p class="lead" style="margin-top:8px;">Selbst beschaffen, genehmigen und ausbauen kostet Monate. Schlüsselfertig startest du in Wochen.</p>
+          <div class="chart-box"><canvas id="cmpChart"></canvas></div>
+        </div>
+        <div class="reveal">
+          <span class="eyebrow on-dark">Marktwachstum Europa</span>
+          <h2 style="margin-top:10px;">Ein Markt im Aufwind</h2>
+          <p class="lead" style="margin-top:8px;">Der europäische Food-Truck-Markt wächst stetig — Trailer sind das am schnellsten wachsende Format.</p>
+          <div class="chart-box"><canvas id="mktChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- CTA BAND -->
   <section class="section">
     <div class="container">
@@ -137,7 +193,9 @@
     </div>
   </section>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="i18n.js"></script>
   <script src="main.js"></script>
+  <script src="pricing.js"></script>
 </body>
 </html>
